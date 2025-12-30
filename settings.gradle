@@ -1,1 +1,4 @@
 rootProject.name = 'flights-api'
+
+include 'server'
+include 'commons'

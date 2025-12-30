@@ -1,9 +1,10 @@
-package com.booking.flights_api;
-
+package server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 
 @SpringBootApplication
+@EntityScan(basePackages = {"commons", "server"})
 public class FlightsApiApplication {
 
 	public static void main(String[] args) {
