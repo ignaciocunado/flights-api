@@ -22,5 +22,5 @@ dependencies {
 }
 
 springBoot {
-	mainClass = 'server.api.FlightsApiApplication'
+	mainClass = 'server.FlightsApiApplication'
 }
