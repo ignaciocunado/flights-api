@@ -18,7 +18,7 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<Flight> getFlights(String flightNumber, String origin, String destination, String airline, boolean isAvailable) {
+    public List<Flight> getFlights(String flightNumber, String origin, String destination, String airline) {
         final List<Flight> flights = flightRepository.findAllWithQuery(flightNumber, origin, destination, airline);
 
         if(flights.isEmpty()) {
@@ -64,7 +64,7 @@ public class FlightService {
 
         flight.setAvailableSeats(flight.getAvailableSeats() - 1);
 
-        if(flight.getAvailableSeats() == 0) {
+        if(flight.getAvailableSeats() <= 0) {
             flightRepository.delete(flight);
             return flight;
         }

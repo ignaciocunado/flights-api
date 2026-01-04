@@ -22,9 +22,9 @@ public final class FlightController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Flight>> getFlights(@RequestParam(required = false) String flightNumber, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination, @RequestParam(required = false) String flightDate, @RequestParam(required = false) String airline, @RequestParam(required = false) boolean isAvailable) {
+    public ResponseEntity<List<Flight>> getFlights(@RequestParam(required = false) String flightNumber, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination, @RequestParam(required = false) String airline) {
         return new ResponseEntity<>(flightService.getFlights(
-                flightNumber, origin, destination, airline, isAvailable
+                flightNumber, origin, destination, airline
         ), new HttpHeaders(), HttpStatus.OK);
     }
 

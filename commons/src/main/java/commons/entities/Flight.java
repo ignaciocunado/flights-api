@@ -3,7 +3,9 @@ package commons.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -11,11 +13,14 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "flights")
+@AllArgsConstructor
+@NoArgsConstructor
 public final class Flight {
 
     @Id
     @GeneratedValue
     @Getter
+    @Setter
     private Long id;
 
     @Getter

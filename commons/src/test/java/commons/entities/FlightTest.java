@@ -16,7 +16,7 @@ class FlightTest {
     @BeforeEach
     void setUp() {
         LocalDateTime departure = LocalDateTime.parse("2025-01-01T00:00:00");
-        LocalDateTime arrival = LocalDateTime.parse("2025-01-01T02:00:00");;
+        LocalDateTime arrival = LocalDateTime.parse("2025-01-01T02:00:00");
         this.flight1 = new Flight("AB1234", "Ignacio AIR", "AGP", "AMS", departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
         this.flight2 = new Flight("AB1234", "Ignacio AIR", "AGP", "AMS", departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
         this.flight3 = new Flight("AB1233", "Booking AIR", "AGP", "AMS", departure, "CET", arrival, "CET", 120 ,100, "EUR", 29);
@@ -162,5 +162,15 @@ class FlightTest {
     void canNotBeBooked() {
         this.flight1.setAvailableSeats(-1);
         assertFalse(this.flight1.canBeBooked());
+    }
+
+    @Test
+    void hashCodeTest() {
+        assertEquals(this.flight1.hashCode(), this.flight1.hashCode());
+    }
+
+    @Test
+    void hashCodeTest2() {
+        assertNotEquals(this.flight1.hashCode(), this.flight3.hashCode());
     }
 }
