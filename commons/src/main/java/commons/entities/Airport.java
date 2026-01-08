@@ -38,25 +38,30 @@ public final class Airport {
     @Setter
     private String country;
 
+    @Getter
+    @Setter
+    private String timezone;
+
     public Airport(String code) {
         this.code = code;
     }
 
-    public Airport(String code, String name, String city, String country) {
+    public Airport(String code, String name, String city, String country, String timezone) {
         this.code = code;
         this.name = name;
         this.city = city;
         this.country = country;
+        this.timezone = timezone;
     }
 
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Airport airport)) return false;
-        return Objects.equals(code, airport.code) && Objects.equals(name, airport.name) && Objects.equals(city, airport.city) && Objects.equals(country, airport.country);
+        return Objects.equals(code, airport.code) && Objects.equals(name, airport.name) && Objects.equals(city, airport.city) && Objects.equals(country, airport.country) && Objects.equals(timezone, airport.timezone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, city, country);
+        return Objects.hash(code, name, city, country, timezone);
     }
 }

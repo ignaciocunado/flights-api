@@ -18,12 +18,12 @@ class FlightTest {
         LocalDateTime departure = LocalDateTime.parse("2025-01-01T00:00:00");
         LocalDateTime arrival = LocalDateTime.parse("2025-01-01T02:00:00");
 
-        Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
+        Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
 
-        this.flight1 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
-        this.flight2 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
-        this.flight3 = new Flight("AB1233", "Booking AIR", origin   , destination, departure, "CET", arrival, "CET", 120 ,100, "EUR", 29);
+        this.flight1 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100);
+        this.flight2 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100);
+        this.flight3 = new Flight("AB1233", "Booking AIR", origin   , destination, departure, arrival, 120 ,100, "EUR", 29);
     }
 
     @Test
@@ -48,14 +48,14 @@ class FlightTest {
 
     @Test
     void getOrigin() {
-        Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
+        Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
 
         assertEquals(origin, this.flight1.getOrigin());
     }
 
     @Test
     void getDestination() {
-        Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
+        Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
 
         assertEquals(destination, this.flight1.getDestination());
     }
@@ -68,16 +68,6 @@ class FlightTest {
     @Test
     void getArrivalTime() {
         assertEquals(LocalDateTime.parse("2025-01-01T02:00:00"), this.flight1.getArrivalTime());
-    }
-
-    @Test
-    void getDepartureTimezone() {
-        assertEquals("CET", this.flight1.getDepartureTimezone());
-    }
-
-    @Test
-    void getArrivalTimezone() {
-        assertEquals("CET", this.flight1.getArrivalTimezone());
     }
 
     @Test
@@ -104,7 +94,7 @@ class FlightTest {
 
     @Test
     void setOrigin() {
-        Airport otherOrigin = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands");
+        Airport otherOrigin = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands", "CET");
 
         this.flight1.setOrigin(otherOrigin);
 
@@ -113,7 +103,7 @@ class FlightTest {
 
     @Test
     void setDestination() {
-        Airport otherDestination = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands");
+        Airport otherDestination = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands", "CET");
 
         this.flight1.setDestination(otherDestination);
         assertEquals(otherDestination, this.flight1.getDestination());
@@ -129,18 +119,6 @@ class FlightTest {
     void setArrivalTime() {
         this.flight1.setArrivalTime(LocalDateTime.parse("2025-01-01T00:00:00").plusDays(2));
         assertEquals(LocalDateTime.parse("2025-01-01T00:00:00").plusDays(2), this.flight1.getArrivalTime());
-    }
-
-    @Test
-    void setDepartureTimezone() {
-        this.flight1.setDepartureTimezone("UTC");
-        assertEquals("UTC", this.flight1.getDepartureTimezone());
-    }
-
-    @Test
-    void setArrivalTimezone() {
-        this.flight1.setArrivalTimezone("UTC");
-        assertEquals("UTC", this.flight1.getArrivalTimezone());
     }
 
     @Test

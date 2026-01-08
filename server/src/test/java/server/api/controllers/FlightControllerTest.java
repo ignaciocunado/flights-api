@@ -41,15 +41,15 @@ public class FlightControllerTest {
         LocalDateTime departure = LocalDateTime.parse("2025-01-01T00:00:00");
         LocalDateTime arrival = LocalDateTime.parse("2025-01-01T02:00:00");
 
-        agp =  new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
-        lhr = new Airport("LHR", "London Heathrow Airport", "London", "United Kingdom");
-        rtm = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands");
-        jfk = new Airport("JFK", "John F. Kennedy International Airport", "New York", "United States of America");
+        agp =  new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        lhr = new Airport("LHR", "London Heathrow Airport", "London", "United Kingdom", "UTC");
+        rtm = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands", "CET");
+        jfk = new Airport("JFK", "John F. Kennedy International Airport", "New York", "United States of America", "ET");
 
-        f1 = new Flight(1L, "1234", "Ignacio AIR", agp, ams, departure.plusYears(2), arrival.plusHours(3).plusYears(2), "CET", "CET", 120, 10000, "EUR", 100);
-        f2 = new Flight(2L,"0000", "TU Delft AIR", lhr, jfk, departure, arrival, "CET", "CET", 120, 10000, "EUR", 100);
-        f3 = new Flight(3L,"7890", "Booking AIR", rtm, ams, departure.minusDays(4).minusYears(4), arrival.minusDays(3).minusYears(4), "CET", "CET", 120 ,100, "EUR", 29);
+        f1 = new Flight(1L, "1234", "Ignacio AIR", agp, ams, departure.plusYears(2), arrival.plusHours(3).plusYears(2), 120, 10000, "EUR", 100);
+        f2 = new Flight(2L,"0000", "TU Delft AIR", lhr, jfk, departure, arrival,120, 10000, "EUR", 100);
+        f3 = new Flight(3L,"7890", "Booking AIR", rtm, ams, departure.minusDays(4).minusYears(4), arrival.minusDays(3).minusYears(4),120 ,100, "EUR", 29);
 
     }
 
@@ -99,21 +99,21 @@ public class FlightControllerTest {
 
     @Test
     public void createFlightTest() {
-        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
-        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), "CET", LocalDateTime.parse("2027-01-01T05:00:00"), "CET", 120, 10000, "EUR", 100);
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 100);
         flight.setId(1L);
 
-        this.controller.createFlight(new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), "CET", LocalDateTime.parse("2027-01-01T05:00:00"), "CET", 120, 10000, "EUR", 100));
+        this.controller.createFlight(new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 100));
 
         assertEquals(this.flightRepo.getById(1L), flight);
     }
 
     @Test
     public void getFlightByIdTest() {
-        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
-        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), "CET", LocalDateTime.parse("2027-01-01T05:00:00"), "CET", 120, 10000, "EUR", 100);
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"),120, 10000, "EUR", 100);
 
         this.flightRepo.save(flight);
         flight.setId(1L);
@@ -141,9 +141,9 @@ public class FlightControllerTest {
 
     @Test
     public void bookFlightTest() {
-        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
-        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), "CET", LocalDateTime.parse("2027-01-01T05:00:00"), "CET", 120, 10000, "EUR", 100);
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"),  LocalDateTime.parse("2027-01-01T05:00:00"),120, 10000, "EUR", 100);
 
         this.flightRepo.save(flight);
         flight.setId(1L);
@@ -154,9 +154,9 @@ public class FlightControllerTest {
 
     @Test
     public void bookFlightDeletesWhenZeroTest() {
-        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
-        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), "CET", LocalDateTime.parse("2027-01-01T05:00:00"), "CET", 120, 10000, "EUR", 1);
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 1);
 
         this.flightRepo.save(flight);
         flight.setId(1L);
@@ -172,9 +172,9 @@ public class FlightControllerTest {
 
     @Test
     public void bookFlightNotAllowedTest() {
-        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
-        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), "CET", LocalDateTime.parse("2027-01-01T05:00:00"), "CET", 120, 10000, "EUR", 0);
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 0);
 
         this.flightRepo.save(flight);
         flight.setId(1L);

@@ -57,14 +57,6 @@ public final class Flight {
 
     @Getter
     @Setter
-    private String departureTimezone;
-
-    @Getter
-    @Setter
-    private String arrivalTimezone;
-
-    @Getter
-    @Setter
     private int duration; // in minutes
 
     @Getter
@@ -79,15 +71,13 @@ public final class Flight {
     @Setter
     private int availableSeats;
 
-    public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, String departureTimezone, LocalDateTime arrivalTime, String arrivalTimezone, int duration, int price, String currency, int availableSeats) {
+    public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, LocalDateTime arrivalTime, int duration, int price, String currency, int availableSeats) {
         this.flightNumber = flightNumber;
         this.airline = airline;
         this.origin = origin;
         this.destination = destination;
         this.departureTime = departureTime;
-        this.departureTimezone = departureTimezone;
         this.arrivalTime = arrivalTime;
-        this.arrivalTimezone = arrivalTimezone;
         this.duration = duration;
         this.price = price;
         this.currency = currency;
@@ -107,13 +97,11 @@ public final class Flight {
                 && Objects.equals(origin, flight.origin)
                 && Objects.equals(destination, flight.destination)
                 && Objects.equals(departureTime, flight.departureTime)
-                && Objects.equals(arrivalTime, flight.arrivalTime)
-                && Objects.equals(departureTimezone, flight.departureTimezone)
-                && Objects.equals(arrivalTimezone, flight.arrivalTimezone);
+                && Objects.equals(arrivalTime, flight.arrivalTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, flightNumber, airline, origin, destination, departureTime, arrivalTime, departureTimezone, arrivalTimezone);
+        return Objects.hash(id, flightNumber, airline, origin, destination, departureTime, arrivalTime);
     }
 }

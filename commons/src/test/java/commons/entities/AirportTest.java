@@ -12,13 +12,13 @@ class AirportTest {
 
     @BeforeEach
     void setUp() {
-        this.a1 = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
-        this.a2 = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
+        this.a1 = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        this.a2 = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
     }
 
     @Test
     void testEquals() {
-        assertEquals(new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain"), this.a1);
+        assertEquals(new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET"), this.a1);
     }
 
     @Test
@@ -57,6 +57,11 @@ class AirportTest {
     }
 
     @Test
+    void getTimezone() {
+        assertEquals("CET", this.a1.getTimezone());
+    }
+
+    @Test
     void setCode() {
         this.a1.setCode("MAL");
 
@@ -82,5 +87,12 @@ class AirportTest {
         this.a1.setCountry("Portugal");
 
         assertEquals("Portugal", this.a1.getCountry());
+    }
+
+    @Test
+    void setTimezone() {
+        this.a1.setTimezone("America/Los_Angeles");
+
+        assertEquals("America/Los_Angeles", this.a1.getTimezone());
     }
 }

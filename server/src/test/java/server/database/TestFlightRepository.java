@@ -81,8 +81,6 @@ public class TestFlightRepository implements FlightRepository {
                 c.setAirline(entity.getAirline());
                 c.setDepartureTime(entity.getDepartureTime());
                 c.setArrivalTime(entity.getArrivalTime());
-                c.setDepartureTimezone(entity.getDepartureTimezone());
-                c.setArrivalTimezone(entity.getArrivalTimezone());
                 c.setDuration(entity.getDuration());
                 c.setPrice(entity.getPrice());
                 c.setCurrency(c.getCurrency());
@@ -91,7 +89,7 @@ public class TestFlightRepository implements FlightRepository {
             }
         }
 
-        final Flight flight = new Flight(entity.getFlightNumber(), entity.getAirline(), entity.getOrigin(), entity.getDestination(), entity.getDepartureTime(), entity.getDepartureTimezone(), entity.getArrivalTime(), entity.getArrivalTimezone(), entity.getDuration(), entity.getPrice(), entity.getCurrency(), entity.getAvailableSeats());
+        final Flight flight = new Flight(entity.getFlightNumber(), entity.getAirline(), entity.getOrigin(), entity.getDestination(), entity.getDepartureTime(), entity.getArrivalTime(), entity.getDuration(), entity.getPrice(), entity.getCurrency(), entity.getAvailableSeats());
         nextInt++;
         flight.setId(nextInt);
 

@@ -114,13 +114,14 @@ public class TestAirportRepository implements AirportRepository {
                 airport.setCode(entity.getCode());
                 airport.setName(entity.getName());
                 airport.setCity(entity.getCity());
+                airport.setTimezone(entity.getTimezone());
                 airport.setCountry(entity.getCountry());
 
                 return (S) airport;
             }
         }
 
-        final Airport airport = new Airport(entity.getCode(),  entity.getName(), entity.getCity(), entity.getCountry());
+        final Airport airport = new Airport(entity.getCode(),  entity.getName(), entity.getCity(), entity.getCountry(), entity.getTimezone());
         nextInt++;
         airport.setId(nextInt);
 
