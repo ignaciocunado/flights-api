@@ -35,13 +35,17 @@ public final class Flight {
 
     @Getter
     @Setter
+    @ManyToOne
+    @JoinColumn(name = "origin_id")
     @NotNull
-    private String origin;
+    private Airport origin;
 
     @Getter
     @Setter
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
     @NotNull
-    private String destination;
+    private Airport destination;
 
     @Getter
     @Setter
@@ -75,7 +79,7 @@ public final class Flight {
     @Setter
     private int availableSeats;
 
-    public Flight(String flightNumber, String airline, String origin, String destination, LocalDateTime departureTime, String departureTimezone, LocalDateTime arrivalTime, String arrivalTimezone, int duration, int price, String currency, int availableSeats) {
+    public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, String departureTimezone, LocalDateTime arrivalTime, String arrivalTimezone, int duration, int price, String currency, int availableSeats) {
         this.flightNumber = flightNumber;
         this.airline = airline;
         this.origin = origin;
