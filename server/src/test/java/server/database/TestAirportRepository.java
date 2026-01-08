@@ -1,7 +1,6 @@
 package server.database;
 
 import commons.entities.Airport;
-import commons.entities.Flight;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class TestAirportRepository implements AirportRepository {
 
@@ -187,7 +187,7 @@ public class TestAirportRepository implements AirportRepository {
 
     @Override
     public void deleteAll() {
-
+        airports.clear();
     }
 
     @Override
@@ -198,5 +198,18 @@ public class TestAirportRepository implements AirportRepository {
     @Override
     public Page<Airport> findAll(Pageable pageable) {
         return null;
+    }
+
+    @Override
+    public List<Airport> findAllWithQuery(String query) {
+        if(query == null) {
+            return airports;
+        }
+
+        final String finalQuery = query.toLowerCase();
+
+        return airports.stream()
+                .filter(a -> a.getName().toLowerCase().contains(finalQuery) || a.getCity().toLowerCase().contains(finalQuery) || a.getCode().toLowerCase().equals(finalQuery))
+                .collect(Collectors.toList());
     }
 }
