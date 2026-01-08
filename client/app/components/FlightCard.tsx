@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { Flight } from "@/app/lib/definitions";
 import { Card, CardContent } from "@/app/components/ui/card";
-import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/app/components/ui/collapsible";
-import { Plane, Clock, Users, ChevronDown, ChevronUp, Wifi, Tv, Plug, Coffee, ArrowRight } from "lucide-react";
+import {ArrowRight, ChevronDown, ChevronUp, Coffee, Plane, Plug, Tv, Users, Wifi} from "lucide-react";
 
 interface FlightCardProps {
     flight: Flight;
@@ -31,7 +30,6 @@ export function FlightCard({ flight }: FlightCardProps) {
                         <div className="flex flex-col lg:flex-row lg:items-center gap-6">
                             {/* Airline Info */}
                             <div className="flex items-center gap-3 lg:w-40">
-                                <div className="text-3xl">{flight.airlineLogo}</div>
                                 <div>
                                     <p className="font-semibold text-foreground">{flight.airline}</p>
                                     <p className="text-sm text-muted-foreground">{flight.flightNumber}</p>
@@ -41,9 +39,9 @@ export function FlightCard({ flight }: FlightCardProps) {
                             {/* Flight Route */}
                             <div className="flex-1 flex items-center gap-4">
                                 <div className="text-center lg:text-left">
-                                    <p className="text-2xl font-bold text-foreground">{flight.departure.time}</p>
-                                    <p className="text-sm font-medium text-foreground">{flight.departure.code}</p>
-                                    <p className="text-xs text-muted-foreground">{flight.departure.city}</p>
+                                    <p className="text-2xl font-bold text-foreground">{flight.origin.timezone}</p>
+                                    <p className="text-sm font-medium text-foreground">{flight.origin.code}</p>
+                                    <p className="text-xs text-muted-foreground">{flight.origin.city}</p>
                                 </div>
 
                                 <div className="flex-1 flex items-center gap-2 px-4">
@@ -51,19 +49,14 @@ export function FlightCard({ flight }: FlightCardProps) {
                                     <div className="flex flex-col items-center">
                                         <Plane className="h-5 w-5 text-primary rotate-90" />
                                         <span className="text-xs text-muted-foreground mt-1">{flight.duration}</span>
-                                        {flight.stops > 0 && (
-                                            <Badge variant="secondary" className="text-xs mt-1">
-                                                {flight.stops} stop
-                                            </Badge>
-                                        )}
                                     </div>
                                     <div className="flex-1 border-t-2 border-dashed border-border"></div>
                                 </div>
 
                                 <div className="text-center lg:text-right">
-                                    <p className="text-2xl font-bold text-foreground">{flight.arrival.time}</p>
-                                    <p className="text-sm font-medium text-foreground">{flight.arrival.code}</p>
-                                    <p className="text-xs text-muted-foreground">{flight.arrival.city}</p>
+                                    <p className="text-2xl font-bold text-foreground">{flight.destination.timezone}</p>
+                                    <p className="text-sm font-medium text-foreground">{flight.destination.code}</p>
+                                    <p className="text-xs text-muted-foreground">{flight.destination.city}</p>
                                 </div>
                             </div>
 
@@ -95,28 +88,8 @@ export function FlightCard({ flight }: FlightCardProps) {
                                     Flight Details
                                 </h4>
                                 <div className="space-y-2 text-sm">
-                                    <p><span className="text-muted-foreground">Aircraft:</span> <span className="text-foreground">{flight.aircraft}</span></p>
-                                    <p><span className="text-muted-foreground">From:</span> <span className="text-foreground">{flight.departure.airport}</span></p>
-                                    <p><span className="text-muted-foreground">To:</span> <span className="text-foreground">{flight.arrival.airport}</span></p>
-                                    {flight.stopCity && (
-                                        <p><span className="text-muted-foreground">Layover:</span> <span className="text-foreground">{flight.stopCity}</span></p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Amenities */}
-                            <div>
-                                <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                                    <Wifi className="h-4 w-4" />
-                                    Amenities
-                                </h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {flight.amenities.map((amenity) => (
-                                        <Badge key={amenity} variant="outline" className="flex items-center gap-1">
-                                            {amenityIcons[amenity]}
-                                            {amenity}
-                                        </Badge>
-                                    ))}
+                                    <p><span className="text-muted-foreground">From:</span> <span className="text-foreground">{flight.origin.name}</span></p>
+                                    <p><span className="text-muted-foreground">To:</span> <span className="text-foreground">{flight.destination.name}</span></p>
                                 </div>
                             </div>
 
@@ -124,8 +97,8 @@ export function FlightCard({ flight }: FlightCardProps) {
                             <div className="flex flex-col justify-between">
                                 <div className="flex items-center gap-2 text-sm mb-4">
                                     <Users className="h-4 w-4 text-muted-foreground" />
-                                    <span className={`font-medium ${flight.seatsAvailable < 10 ? 'text-destructive' : 'text-foreground'}`}>
-                    {flight.seatsAvailable} seats available
+                                    <span className={`font-medium ${flight.availableSeats < 10 ? 'text-destructive' : 'text-foreground'}`}>
+                    {flight.availableSeats} seats available
                   </span>
                                 </div>
                                 <Button className="w-full" size="lg">

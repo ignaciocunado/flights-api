@@ -4,6 +4,7 @@ export type Airport = {
     name: string;
     city: string;
     country: string;
+    timezone: string;
 }
 
 export type Flight = {
@@ -14,8 +15,6 @@ export type Flight = {
     destination: Airport;
     departureTime: string;
     arrivalTime: string;
-    departureTimezone: string;
-    arrivalTimezone: string;
     duration: number;
     price: number;
     currency: string;

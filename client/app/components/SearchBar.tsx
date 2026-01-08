@@ -1,6 +1,6 @@
-import { Search, MapPin, Calendar } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+import { Button } from "@/app/components/ui/button";
+import {MapPin} from "lucide-react";
 
 interface SearchBarProps {
   searchQuery: string;
@@ -29,7 +29,6 @@ export function SearchBar({ searchQuery, onSearchChange, onSearch }: SearchBarPr
           />
         </div>
         <Button onClick={onSearch} size="lg" className="h-12 px-8">
-          <Search className="h-5 w-5 mr-2" />
           Search Flights
         </Button>
       </div>
