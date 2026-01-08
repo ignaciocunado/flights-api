@@ -212,8 +212,8 @@ public class TestFlightRepository implements FlightRepository {
     public List<Flight> findAllWithQuery(String flightNumber, String origin, String destination, String airline) {
         return this.flights.stream()
                 .filter(f -> flightNumber == null || f.getFlightNumber().equals(flightNumber))
-                .filter(f -> origin == null || f.getOrigin().equals(origin))
-                .filter(f -> destination == null || f.getDestination().equals(destination))
+                .filter(f -> origin == null || f.getOrigin().getCode().equals(origin))
+                .filter(f -> destination == null || f.getDestination().getCode().equals(destination))
                 .filter(f -> airline == null || f.getAirline().equals(airline))
                 .collect(Collectors.toList());
     }

@@ -17,9 +17,13 @@ class FlightTest {
     void setUp() {
         LocalDateTime departure = LocalDateTime.parse("2025-01-01T00:00:00");
         LocalDateTime arrival = LocalDateTime.parse("2025-01-01T02:00:00");
-        this.flight1 = new Flight("AB1234", "Ignacio AIR", "AGP", "AMS", departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
-        this.flight2 = new Flight("AB1234", "Ignacio AIR", "AGP", "AMS", departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
-        this.flight3 = new Flight("AB1233", "Booking AIR", "AGP", "AMS", departure, "CET", arrival, "CET", 120 ,100, "EUR", 29);
+
+        Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
+        Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
+
+        this.flight1 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
+        this.flight2 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, "CET", arrival, "CET", 120, 10000, "EUR", 100);
+        this.flight3 = new Flight("AB1233", "Booking AIR", origin   , destination, departure, "CET", arrival, "CET", 120 ,100, "EUR", 29);
     }
 
     @Test
@@ -44,12 +48,16 @@ class FlightTest {
 
     @Test
     void getOrigin() {
-        assertEquals("AGP", this.flight1.getOrigin());
+        Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain");
+
+        assertEquals(origin, this.flight1.getOrigin());
     }
 
     @Test
     void getDestination() {
-        assertEquals("AMS", this.flight1.getDestination());
+        Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands");
+
+        assertEquals(destination, this.flight1.getDestination());
     }
 
     @Test
@@ -96,14 +104,19 @@ class FlightTest {
 
     @Test
     void setOrigin() {
-        this.flight1.setOrigin("other origin");
-        assertEquals("other origin", this.flight1.getOrigin());
+        Airport otherOrigin = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands");
+
+        this.flight1.setOrigin(otherOrigin);
+
+        assertEquals(otherOrigin, this.flight1.getOrigin());
     }
 
     @Test
     void setDestination() {
-        this.flight1.setDestination("other destination");
-        assertEquals("other destination", this.flight1.getDestination());
+        Airport otherDestination = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands");
+
+        this.flight1.setDestination(otherDestination);
+        assertEquals(otherDestination, this.flight1.getDestination());
     }
 
     @Test
