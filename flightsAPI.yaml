@@ -63,7 +63,7 @@ paths:
                     type: string
                     example: Invalid query
         '404':
-          description: Companies not found
+          description: Flights not found
           content:
             application/json:
               schema:
@@ -80,7 +80,7 @@ paths:
       summary: Create a new flight
       description: Create a new flight
       requestBody:
-        $ref: '#/components/requestBodies/CompanyPostRequest'
+        $ref: '#/components/requestBodies/FlightPostRequest'
       responses:
         '201':
           description: Flight created
@@ -131,6 +131,14 @@ paths:
                     example: Invalid ID
         '404':
           description: Flight not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Flight not found
         '500':
           description: Internal server error
     delete:
@@ -164,6 +172,14 @@ paths:
                     example: Bad request
         '404':
           description: Flight not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Flight not found
         '500':
           description: Internal server error
   /flights/{id}/book:
@@ -198,6 +214,14 @@ paths:
                     example: Flight cannot be booked query
         '404':
           description: Flight not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Flight not found
         '500':
           description: Internal server error
 
@@ -234,7 +258,7 @@ paths:
                     type: string
                     example: Invalid query
         '404':
-          description: Companies not found
+          description: Airports not found
           content:
             application/json:
               schema:
@@ -266,13 +290,15 @@ components:
           description: Airline operating the flight.
           example: "Iberia"
         origin:
-          type: string
-          description: IATA code or name of the origin airport.
-          example: "MAD"
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/Airport'
+          description: Origin airport object
         destination:
-          type: string
-          description: IATA code or name of the destination airport.
-          example: "LHR"
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/Airport'
+          description: Destination airport object
         departureTime:
           type: string
           format: date-time
@@ -359,61 +385,12 @@ components:
 
 
   requestBodies:
-    CompanyPostRequest:
-      description: Company details
+    FlightPostRequest:
+      description: Flight details
       required: true
       content:
         application/json:
           schema:
             type: object
-            properties:
-              name:
-                type: string
-                example: Paro Software
-              phone:
-                type: string
-                format: phone
-                example: +31600111222
-              address:
-                type: string
-                example: 123 Main Street
-              zipcode:
-                type: string
-                format: zipcode
-                example: 1234AB
-              city:
-                type: string
-                example: Heemskerk
-              country:
-                type: string
-                example: Netherlands
-              portal_id:
-                type: integer
-                format: int64
-                example: 1
-
-    CompanyPutRequest:
-      description: Company details to update
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              phone:
-                type: string
-                format: phone
-                example: +31600111222
-              address:
-                type: string
-                example: 123 Main Street
-              zipcode:
-                type: string
-                format: zipcode
-                example: 1234AB
-              city:
-                type: string
-                example: Heemskerk
-              country:
-                type: string
-                example: Netherlands
+            allOf:
+              - $ref: '#/components/schemas/Flight'
