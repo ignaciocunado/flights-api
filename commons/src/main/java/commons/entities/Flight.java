@@ -2,6 +2,7 @@ package commons.entities;
 
 import commons.enums.Amenity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -60,6 +61,7 @@ public final class Flight {
 
     @Getter
     @Setter
+    @Min(0)
     private int duration; // in minutes
 
     @Getter
@@ -127,5 +129,22 @@ public final class Flight {
     @Override
     public int hashCode() {
         return Objects.hash(id, flightNumber, airline, origin, destination, departureTime, arrivalTime);
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "flightNumber='" + flightNumber + '\'' +
+                ", airline='" + airline + '\'' +
+                ", origin=" + origin +
+                ", destination=" + destination +
+                ", departureTime=" + departureTime +
+                ", arrivalTime=" + arrivalTime +
+                ", duration=" + duration +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                ", availableSeats=" + availableSeats +
+                ", amenities=" + amenities +
+                '}';
     }
 }

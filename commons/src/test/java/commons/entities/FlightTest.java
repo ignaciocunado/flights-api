@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -179,5 +178,14 @@ class FlightTest {
         this.flight1.setAmenities(Set.of(Amenity.PREMIUM_SEATS));
 
         assertEquals(Set.of(Amenity.PREMIUM_SEATS), this.flight1.getAmenities());
+    }
+
+    @Test
+    void testToString() {
+        flight1.setDestination(null);
+        flight1.setOrigin(null);
+        flight1.setAmenities(null); // Hashsets dont respect ordering
+
+        assertEquals("Flight{flightNumber='AB1234', airline='Ignacio AIR', origin=null, destination=null, departureTime=2025-01-01T00:00, arrivalTime=2025-01-01T02:00, duration=120, price=10000, currency='EUR', availableSeats=100, amenities=null}", flight1.toString());
     }
 }

@@ -2,7 +2,6 @@ package commons.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +23,7 @@ public final class Airport {
     @Getter
     @Setter
     @NotBlank
+    @Column(unique = true)
     private String code;
 
     @Getter
@@ -63,5 +63,16 @@ public final class Airport {
     @Override
     public int hashCode() {
         return Objects.hash(code, name, city, country, timezone);
+    }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", timezone='" + timezone + '\'' +
+                '}';
     }
 }

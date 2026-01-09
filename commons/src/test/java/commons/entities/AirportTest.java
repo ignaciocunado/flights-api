@@ -95,4 +95,9 @@ class AirportTest {
 
         assertEquals("America/Los_Angeles", this.a1.getTimezone());
     }
+
+    @Test
+    void testToString() {
+        assertEquals("Airport{code='AGP', name='Aeropuerto de Malaga', city='Malaga', country='Spain', timezone='CET'}", this.a1.toString());
+    }
 }
