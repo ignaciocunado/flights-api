@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function fetchAllFlights(): Promise<Flight[]> {
     try {
-        const res = await fetch(`${API_URL}/api/flights`, {
+        const res = await fetch(`${API_URL}/api/flights/`, {
             cache: 'no-store',
             headers: {
                 'Content-Type': 'application/json',
