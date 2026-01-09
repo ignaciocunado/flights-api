@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AirportRepository extends JpaRepository<Airport, Long> {
@@ -17,7 +18,9 @@ public interface AirportRepository extends JpaRepository<Airport, Long> {
         OR LOWER(a.name) LIKE LOWER(CONCAT('%', :query, '%'))
         OR LOWER(a.city) LIKE LOWER(CONCAT('%', :query, '%'))
     )""")
-    List<Airport> findAllWithQuery(
-            @Param("query") String query
-    );
+    List<Airport> findAllWithQuery(@Param("query") String query);
+
+    Optional<Airport> findByCode(String code);
+
+    boolean existsByCode(String code);
 }

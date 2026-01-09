@@ -36,7 +36,7 @@ public class FlightControllerTest {
     public void setup() {
         flightRepo = new TestFlightRepository();
         airportRepo = new TestAirportRepository();
-        flightService = new FlightService(flightRepo);
+        flightService = new FlightService(flightRepo, airportRepo);
         controller = new FlightController(flightService);
 
         LocalDateTime departure = LocalDateTime.parse("2025-01-01T00:00:00");
@@ -106,6 +106,19 @@ public class FlightControllerTest {
 
         this.controller.createFlight(new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 100));
 
+        assertEquals(this.flightRepo.getById(1L), flight);
+    }
+
+    @Test
+    public void createFlightViolatePriceConstraintTest() {
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 0, 10000, "EUR", 100);
+        flight.setId(1L);
+
+        this.controller.createFlight(new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), -1, 10000, "EUR", 100));
+
+        System.out.println(flightRepo.getById(1L));
         assertEquals(this.flightRepo.getById(1L), flight);
     }
 

@@ -1,8 +1,12 @@
 package server.services;
 
+import commons.entities.Airport;
 import commons.entities.Flight;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import server.database.AirportRepository;
 import server.database.FlightRepository;
 import server.exceptions.InvalidBookingException;
 
@@ -13,9 +17,11 @@ import java.util.Optional;
 public class FlightService {
 
     private final FlightRepository flightRepository;
+    private final AirportRepository airportRepository;
 
-    public FlightService(FlightRepository flightRepository) {
+    public FlightService(FlightRepository flightRepository,  AirportRepository airportRepository) {
         this.flightRepository = flightRepository;
+        this.airportRepository = airportRepository;
     }
 
     public List<Flight> getFlights(String flightNumber, String origin, String destination, String airline) {
@@ -45,7 +51,14 @@ public class FlightService {
         return toDelete;
     }
 
+    @Transactional
     public Flight createFlight(Flight flight) {
+        Airport origin = getOrCreateAirport(flight.getOrigin());
+        Airport destination = getOrCreateAirport(flight.getDestination());
+
+        flight.setOrigin(origin);
+        flight.setDestination(destination);
+
         return flightRepository.save(flight);
     }
 
@@ -70,5 +83,12 @@ public class FlightService {
         }
 
         return flightRepository.save(flight);
+    }
+
+    private Airport getOrCreateAirport(@NotNull Airport origin) {
+        String code = origin.getCode();
+
+        return airportRepository.findByCode(code)
+                .orElseGet(() -> airportRepository.save(new Airport(code)));
     }
 }

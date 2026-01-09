@@ -212,4 +212,14 @@ public class TestAirportRepository implements AirportRepository {
                 .filter(a -> a.getName().toLowerCase().contains(finalQuery) || a.getCity().toLowerCase().contains(finalQuery) || a.getCode().toLowerCase().equals(finalQuery))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Airport> findByCode(String code) {
+        return airports.stream().filter(b -> b.getCode().equals(code)).findFirst();
+    }
+
+    @Override
+    public boolean existsByCode(String code) {
+        return airports.stream().anyMatch(airport -> airport.getCode().equals(code));
+    }
 }
