@@ -15,7 +15,6 @@ interface FlightSearchClientProps {
 export default function FlightSearchClient({ flights }: FlightSearchClientProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [appliedSearch, setAppliedSearch] = useState("");
-    const maxPrice = flights.length > 0 ? Math.max(...flights.map((f) => f.price)) : 1000;
 
     const handleSearch = () => {
         setAppliedSearch(searchQuery);
@@ -53,7 +52,7 @@ export default function FlightSearchClient({ flights }: FlightSearchClientProps)
                         <h2 className="text-2xl font-bold text-foreground">
                             Available Flights
                         </h2>
-                        <Badge variant="secondary" className="text-sm">
+                        <Badge variant="default" className="text-sm">
                             {filteredFlights.length} {filteredFlights.length === 1 ? 'flight' : 'flights'}
                         </Badge>
                     </div>

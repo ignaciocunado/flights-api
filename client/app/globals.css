@@ -6,8 +6,8 @@
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-booking-100: #003580;
+  --color-booking-200: #009fe3;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

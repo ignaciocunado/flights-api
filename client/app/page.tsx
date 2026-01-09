@@ -1,4 +1,3 @@
-// app/page.tsx
 import FlightSearchClient from '@/app/components/FlightSearchClient';
 import {fetchAllFlights} from "@/app/lib/api";
 
