@@ -20,14 +20,14 @@ public final class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping("/")
+    @GetMapping(path = {"", "/"})
     public ResponseEntity<List<Flight>> getFlights(@RequestParam(required = false) String flightNumber, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination, @RequestParam(required = false) String airline) {
         return new ResponseEntity<>(flightService.getFlights(
                 flightNumber, origin, destination, airline
         ), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping(path = {"", "/"})
     public ResponseEntity<Flight> createFlight(@RequestBody Flight flight) {
         return new ResponseEntity<>(flightService.createFlight(flight), new HttpHeaders(), HttpStatus.OK);
     }
