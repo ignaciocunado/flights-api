@@ -55,6 +55,8 @@ public class FlightService {
     public Flight createFlight(Flight flight) {
         Airport origin = getOrCreateAirport(flight.getOrigin());
         Airport destination = getOrCreateAirport(flight.getDestination());
+        System.out.println(origin);
+        System.out.println(destination);
 
         flight.setOrigin(origin);
         flight.setDestination(destination);
@@ -87,8 +89,12 @@ public class FlightService {
 
     private Airport getOrCreateAirport(@NotNull Airport origin) {
         String code = origin.getCode();
+        String name = origin.getName();
+        String city = origin.getCity();
+        String country = origin.getCountry();
+        String timezone = origin.getTimezone();
 
         return airportRepository.findByCode(code)
-                .orElseGet(() -> airportRepository.save(new Airport(code)));
+                .orElseGet(() -> airportRepository.save(new Airport(code, name, city, country, timezone)));
     }
 }
