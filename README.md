@@ -1,4 +1,4 @@
-# 2026 Booking.com AC
+# Flights API
 
 ## Running the app
 
