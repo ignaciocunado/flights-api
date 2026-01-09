@@ -1,5 +1,6 @@
 package commons.entities;
 
+import commons.enums.Amenity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "flights")
@@ -71,6 +74,12 @@ public final class Flight {
     @Setter
     private int availableSeats;
 
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Getter
+    @Setter
+    private Set<Amenity> amenities;
+
     public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, LocalDateTime arrivalTime, int duration, int price, String currency, int availableSeats) {
         this.flightNumber = flightNumber;
         this.airline = airline;
@@ -82,6 +91,21 @@ public final class Flight {
         this.price = price;
         this.currency = currency;
         this.availableSeats = availableSeats;
+        this.amenities = new HashSet<>();
+    }
+
+    public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, LocalDateTime arrivalTime, int duration, int price, String currency, int availableSeats, Set<Amenity> amenities) {
+        this.flightNumber = flightNumber;
+        this.airline = airline;
+        this.origin = origin;
+        this.destination = destination;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.duration = duration;
+        this.price = price;
+        this.currency = currency;
+        this.availableSeats = availableSeats;
+        this.amenities = amenities;
     }
 
     public boolean canBeBooked() {

@@ -11,6 +11,7 @@ import server.exceptions.InvalidBookingException;
 import server.services.FlightService;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,10 +48,9 @@ public class FlightControllerTest {
         rtm = new Airport("RTM", "Rotterdam Airport", "Rotterdam", "The Netherlands", "CET");
         jfk = new Airport("JFK", "John F. Kennedy International Airport", "New York", "United States of America", "ET");
 
-        f1 = new Flight(1L, "1234", "Ignacio AIR", agp, ams, departure.plusYears(2), arrival.plusHours(3).plusYears(2), 120, 10000, "EUR", 100);
-        f2 = new Flight(2L,"0000", "TU Delft AIR", lhr, jfk, departure, arrival,120, 10000, "EUR", 100);
-        f3 = new Flight(3L,"7890", "Booking AIR", rtm, ams, departure.minusDays(4).minusYears(4), arrival.minusDays(3).minusYears(4),120 ,100, "EUR", 29);
-
+        f1 = new Flight(1L, "1234", "Ignacio AIR", agp, ams, departure.plusYears(2), arrival.plusHours(3).plusYears(2), 120, 10000, "EUR", 100, Collections.emptySet());
+        f2 = new Flight(2L,"0000", "TU Delft AIR", lhr, jfk, departure, arrival,120, 10000, "EUR", 100, Collections.emptySet());
+        f3 = new Flight(3L,"7890", "Booking AIR", rtm, ams, departure.minusDays(4).minusYears(4), arrival.minusDays(3).minusYears(4),120 ,100, "EUR", 29, Collections.emptySet());
     }
 
     @Test

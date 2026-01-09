@@ -347,6 +347,18 @@ components:
           description: Number of seats currently available for booking.
           example: 12
           minimum: 0
+        amenities:
+          type: array
+          items:
+            type: string
+            enum:
+              - WIFI
+              - MEALS
+              - ENTERTAINMENT
+              - PREMIUM_SEATS
+          example:
+            - WIFI
+            - MEALS
       required:
         - flightNumber
         - airline

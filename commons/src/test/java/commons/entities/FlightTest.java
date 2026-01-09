@@ -1,9 +1,13 @@
 package commons.entities;
 
+import commons.enums.Amenity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,9 +25,9 @@ class FlightTest {
         Airport origin = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
         Airport destination = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
 
-        this.flight1 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100);
-        this.flight2 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100);
-        this.flight3 = new Flight("AB1233", "Booking AIR", origin   , destination, departure, arrival, 120 ,100, "EUR", 29);
+        this.flight1 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100, Set.of(Amenity.MEALS, Amenity.WIFI));
+        this.flight2 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100, Set.of(Amenity.PREMIUM_SEATS));
+        this.flight3 = new Flight("AB1233", "Booking AIR", origin   , destination, departure, arrival, 120 ,100, "EUR", 29, new HashSet<>());
     }
 
     @Test
@@ -163,5 +167,17 @@ class FlightTest {
     @Test
     void hashCodeTest2() {
         assertNotEquals(this.flight1.hashCode(), this.flight3.hashCode());
+    }
+
+    @Test
+    void getAmenities() {
+        assertEquals(Set.of(Amenity.MEALS, Amenity.WIFI), this.flight1.getAmenities());
+    }
+
+    @Test
+    void setAmenities() {
+        this.flight1.setAmenities(Set.of(Amenity.PREMIUM_SEATS));
+
+        assertEquals(Set.of(Amenity.PREMIUM_SEATS), this.flight1.getAmenities());
     }
 }
