@@ -1,5 +1,6 @@
 import requests
 import json
+from airports import airport_data
 
 def duration_to_minutes(s: str) -> int:
     h, m = s.replace("h", "").replace("m", "").split()
@@ -11,14 +12,24 @@ def main():
 
     flights = data['flights']
     for flight in flights:
+        origin = airport_data.get_airport_by_iata(flight['origin'])
+        destination = airport_data.get_airport_by_iata(flight['destination'])
         my_format =  {
             'flightNumber': flight['flight_number'],
             'airline': flight['airline'],
             'origin': {
                 'code': flight['origin'],
+                'name': origin[0]['airport'],
+                'city': origin[0].get('city', ''),
+                'country': origin[0]['country_code'],
+                'timezone': origin[0]['time'],
             },
             'destination': {
-                'code': flight['destination']
+                'code': flight['destination'],
+                'name': destination[0]['airport'],
+                'city': destination[0].get('city', ''),
+                'country': destination[0]['country_code'],
+                'timezone': destination[0]['time'],
             },
             'departureTime': '2026-01-09T'+flight['departure_time'],
             'arrivalTime': '2026-01-09T'+flight['arrival_time'],
