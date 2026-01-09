@@ -121,7 +121,7 @@ public class TestAirportRepository implements AirportRepository {
             }
         }
 
-        final Airport airport = new Airport(entity.getCode(),  entity.getName(), entity.getCity(), entity.getCountry(), entity.getTimezone());
+        final Airport airport = new Airport(entity.getCode(), entity.getName(), entity.getCity(), entity.getCountry(), entity.getTimezone());
         nextInt++;
         airport.setId(nextInt);
 
@@ -132,7 +132,7 @@ public class TestAirportRepository implements AirportRepository {
 
     @Override
     public <S extends Airport> List<S> saveAll(Iterable<S> entities) {
-        for(Airport airport : airports) {
+        for(Airport airport : entities) {
             airports.add(airport);
             airport.setId(nextInt++);
         }
