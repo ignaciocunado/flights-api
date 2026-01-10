@@ -1,4 +1,4 @@
-import { Flight } from './definitions';
+import { Flight, Airport } from './definitions';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -22,39 +22,33 @@ export async function fetchAllFlights(): Promise<Flight[]> {
     }
 }
 
-export async function fetchFlightById(id: string): Promise<Flight | null> {
+export async function bookFlight(id: number): Promise<Flight[]> {
     try {
-        const res = await fetch(`${API_URL}/api/flights/${id}`, {
+        const res = await fetch(`${API_URL}/api/flights/${id}/book`, {
+            method: 'PATCH',
             cache: 'no-store',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
 
-        if (!res.ok) {
-            if (res.status === 404) return null;
-            throw new Error(`Failed to fetch flight: ${res.status} ${res.statusText}`);
+        if (! res.ok) {
+            throw new Error(`Failed to book flight: ${res.status} ${res.statusText}`);
         }
 
         return res.json();
     } catch (error) {
-        console.error('Error fetching flight:', error);
+        console.error('Error booking flight with id: ' + id, error);
         throw error;
     }
 }
 
-export async function searchFlights(params: {
-    origin?: string;
-    destination?: string;
-    date?: string;
-}): Promise<Flight[]> {
+export async function searchAirports(query: string): Promise<Airport[]> {
     try {
         const queryParams = new URLSearchParams();
-        if (params.origin) queryParams.append('origin', params.origin);
-        if (params.destination) queryParams.append('destination', params.destination);
-        if (params.date) queryParams.append('date', params.date);
+        queryParams.append('search', query);
 
-        const res = await fetch(`${API_URL}/api/flights/search?${queryParams}`, {
+        const res = await fetch(`${API_URL}/api/airports?${queryParams}`, {
             cache: 'no-store',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,12 +56,12 @@ export async function searchFlights(params: {
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to search flights: ${res.status} ${res.statusText}`);
+            throw new Error(`Failed to fetch airports: ${res.status} ${res.statusText}`);
         }
 
         return res.json();
     } catch (error) {
-        console.error('Error searching flights:', error);
+        console.error('Error fetching airports:', error);
         throw error;
     }
 }

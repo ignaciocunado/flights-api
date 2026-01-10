@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/app/components/ui/collapsible";
 import {ArrowRight, ChevronDown, ChevronUp, Coffee, Pizza, Plane, Sofa, Tv, Users, Wifi} from "lucide-react";
+import {bookFlight} from "@/app/lib/api";
+import {useRouter} from "next/navigation";
 
 interface FlightCardProps {
     flight: Flight;
@@ -34,9 +36,22 @@ function formatDate(iso: string, timezone: string) {
     }).format(date);
 }
 
-
 export function FlightCard({ flight }: FlightCardProps) {
     const [isOpen, setIsOpen] = useState(false);
+
+    const router = useRouter();
+
+    async function book(id: number) {
+        try {
+            await bookFlight(id);
+            alert("Flight successfully booked!");
+            router.refresh();
+        } catch (e) {
+            console.error(e);
+            alert("Booking failed");
+        }
+    }
+
 
     return (
         <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg border-border/50 bg-booking-100 text-white">
@@ -116,7 +131,11 @@ export function FlightCard({ flight }: FlightCardProps) {
                                     Amenities
                                 </h3>
                                 <div className="space-y-2 text-sm">
-                                    {flight.amenities.map(a => amenityIcons[a])}
+                                    {flight.amenities.map(a => (
+                                        <div key={flight.id + a}>
+                                            {amenityIcons[a]}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 
@@ -126,7 +145,7 @@ export function FlightCard({ flight }: FlightCardProps) {
                                     <Users className="h-4 w-4" />
                                     {flight.availableSeats} seats available
                                 </h3>
-                                <Button className="w-5/12 bg-booking text-white font-semibold h-12 text-lg" size="lg">
+                                <Button className="w-5/12 bg-booking text-white font-semibold h-12 text-lg" size="lg" onClick={ () => book(flight.id) }>
                                     Book Now
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
