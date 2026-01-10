@@ -20,7 +20,7 @@ public class AirportController {
     }
 
     @GetMapping(path = {"", "/"})
-    public ResponseEntity<List<Airport>> getAirports(@RequestParam String query) {
+    public ResponseEntity<List<Airport>> getAirports(@RequestParam(value = "search", required = false) String query) {
         return new ResponseEntity<>(airportService.getAirports(query), new HttpHeaders(), HttpStatus.OK);
     }
 }
