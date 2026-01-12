@@ -11,6 +11,12 @@ import java.util.Optional;
 
 @Repository
 public interface AirportRepository extends JpaRepository<Airport, Long> {
+
+    /**
+     * Finds all airports whose code, name or city matches the query.
+     * @param query The query string to search for.
+     * @return a list of matching airport objects
+     */
     @Query("""
     SELECT a FROM Airport a
     WHERE (:query IS NULL
@@ -20,7 +26,17 @@ public interface AirportRepository extends JpaRepository<Airport, Long> {
     )""")
     List<Airport> findAllWithQuery(@Param("query") String query);
 
+    /**
+     * Finds an airport by its unique IATA 3-letter code.
+     * @param code The code to search for.
+     * @return A possibly empty optional airport object
+     */
     Optional<Airport> findByCode(String code);
 
+    /**
+     * Checks whether an airport with the given code exists in the database.
+     * @param code The code to search for.
+     * @return true if the specified airport exists in the database
+     */
     boolean existsByCode(String code);
 }

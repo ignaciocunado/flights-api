@@ -11,10 +11,19 @@ import java.util.List;
 public class AirportService {
     private final AirportRepository airportRepository;
 
+    /**
+     * Constructs the service handling airport-related API business logic.
+     * @param airportRepository The airport repository.
+     */
     public AirportService(AirportRepository airportRepository) {
         this.airportRepository = airportRepository;
     }
 
+    /**
+     * Finds airports matching a given query
+     * @param query The code, city or airport name to look for.
+     * @return a list of airports matching the given query or 404
+     */
     public List<Airport> getAirports(String query) {
         final List<Airport> airports = airportRepository.findAllWithQuery(query);
 

@@ -15,6 +15,10 @@ public class AirportController {
 
     private final AirportService airportService;
 
+    /**
+     * Creates the airport controller for the airport-related API endpoints.
+     * @param airportService The airport service which handles the business logic.
+     */
     public AirportController(AirportService airportService) {
         this.airportService = airportService;
     }

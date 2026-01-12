@@ -7,6 +7,10 @@ import org.springframework.boot.persistence.autoconfigure.EntityScan;
 @EntityScan(basePackages = {"commons", "server"})
 public class FlightsApiApplication {
 
+	/**
+	 * Main entry point for the application.
+	 * @param args Command line arguments.
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(FlightsApiApplication.class, args);
 	}

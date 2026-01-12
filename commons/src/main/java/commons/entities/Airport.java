@@ -13,39 +13,41 @@ import java.util.Objects;
 @Table(name = "airports")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public final class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     @NotBlank
     @Column(unique = true)
     private String code;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     private String city;
 
-    @Getter
-    @Setter
     private String country;
 
-    @Getter
-    @Setter
     private String timezone;
 
+    /**
+     * Constructor for when we only have the airport code (e.g. data ingestion)
+     * @param code IATA three-letter code identifying the airport
+     */
     public Airport(String code) {
         this.code = code;
     }
 
+    /**
+     * Regular airport constructor
+     * @param code The IATA three-letter code identifying the airport.
+     * @param name The name of the airport.
+     * @param city The city where the airport is in.
+     * @param country The country where the airport is in.
+     * @param timezone The timezone of the airport.
+     */
     public Airport(String code, String name, String city, String country, String timezone) {
         this.code = code;
         this.name = name;
@@ -54,17 +56,30 @@ public final class Airport {
         this.timezone = timezone;
     }
 
+    /**
+     * Indicates whether some other airport is the same as this one
+     * @param o   the reference object with which to compare.
+     * @return true if they are the same airport
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Airport airport)) return false;
         return Objects.equals(code, airport.code) && Objects.equals(name, airport.name) && Objects.equals(city, airport.city) && Objects.equals(country, airport.country) && Objects.equals(timezone, airport.timezone);
     }
 
+    /**
+     * Returns a hash code value for the airport
+     * @return airport hash
+     */
     @Override
     public int hashCode() {
         return Objects.hash(code, name, city, country, timezone);
     }
 
+    /**
+     * String representation of this airport object
+     * @return a string representation of this airport.
+     */
     @Override
     public String toString() {
         return "Airport{" +

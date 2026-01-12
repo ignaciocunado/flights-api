@@ -1,5 +1,7 @@
 package server.api;
 
+import lombok.Getter;
+import lombok.Setter;
 import server.exceptions.ServerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,33 +12,29 @@ import java.time.Instant;
 @RestControllerAdvice
 public final class RestExceptionHandler {
 
+    @Getter
     class APIError {
-        private String message;
-        private Object reason;
-        private Instant timestamp;
+
+        private final String message;
+
+        private final Object reason;
+
+        private final Instant timestamp;
+
+        /**
+         * Constructs a new API Error object
+         * @param exception the exception that was fired
+         */
         public APIError(final ServerException exception) {
             this.message = exception.getMessage();
             this.reason = exception.getReason();
             this.timestamp = Instant.now();
         }
-
-        public String getMessage() {
-            return this.message;
-        }
-
-        public Object getReason() {
-            return this.reason;
-        }
-
-        public Instant getTimestamp() {
-            return this.timestamp;
-        }
-
     }
 
     /**
      * Handles all server exceptions to give an appropriate response
-     * with a json marshalled error and the correct status code
+     * with a JSON marshaled error and the correct status code
      * @param exception the exception we extract this information from
      * @return the correct response entity as described
      */

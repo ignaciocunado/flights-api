@@ -19,69 +19,61 @@ import java.util.Set;
 @Table(name = "flights")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public final class Flight {
 
     @Id
     @GeneratedValue
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     @NotBlank
     private String flightNumber;
 
-    @Getter
-    @Setter
     @NotNull
     private String airline;
 
-    @Getter
-    @Setter
     @ManyToOne
     @JoinColumn(name = "origin_id")
     @NotNull
     private Airport origin;
 
-    @Getter
-    @Setter
     @ManyToOne
     @JoinColumn(name = "destination_id")
     @NotNull
     private Airport destination;
 
-    @Getter
-    @Setter
     private LocalDateTime departureTime;
 
-    @Getter
-    @Setter
     private LocalDateTime arrivalTime;
 
-    @Getter
-    @Setter
     @Min(0)
     private int duration; // in minutes
 
-    @Getter
-    @Setter
     private int price; // in cents to avoid floating point arithmetic
 
-    @Getter
-    @Setter
     private String currency;
 
-    @Getter
-    @Setter
     private int availableSeats;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    @Getter
-    @Setter
     private Set<Amenity> amenities;
 
+    /**
+     * Constructs a new Flight object.
+     *
+     * @param flightNumber The unique flight number (e.g. "KL1234").
+     * @param airline The airline operating the flight.
+     * @param origin The origin airport object.
+     * @param destination The destination airport object.
+     * @param departureTime The scheduled departure date and time.
+     * @param arrivalTime The scheduled arrival date and time.
+     * @param duration The total flight duration in minutes.
+     * @param price The ticket price in cents.
+     * @param currency The currency of the price (e.g. "EUR", "USD").
+     * @param availableSeats The number of seats still available on the flight.
+     */
     public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, LocalDateTime arrivalTime, int duration, int price, String currency, int availableSeats) {
         this.flightNumber = flightNumber;
         this.airline = airline;
@@ -96,6 +88,21 @@ public final class Flight {
         this.amenities = new HashSet<>();
     }
 
+    /**
+     * Constructs a new Flight object.
+     *
+     * @param flightNumber The unique flight number (e.g. "KL1234").
+     * @param airline The airline operating the flight.
+     * @param origin The origin airport object.
+     * @param destination The destination airport object.
+     * @param departureTime The scheduled departure date and time.
+     * @param arrivalTime The scheduled arrival date and time.
+     * @param duration The total flight duration in minutes.
+     * @param price The ticket price in cents.
+     * @param currency The currency of the price (e.g. "EUR", "USD").
+     * @param availableSeats The number of seats still available on the flight.
+     * @param amenities The amenities this flight includes
+     */
     public Flight(String flightNumber, String airline, Airport origin, Airport destination, LocalDateTime departureTime, LocalDateTime arrivalTime, int duration, int price, String currency, int availableSeats, Set<Amenity> amenities) {
         this.flightNumber = flightNumber;
         this.airline = airline;
@@ -110,10 +117,19 @@ public final class Flight {
         this.amenities = amenities;
     }
 
+    /**
+     * Indicates whether this flight has any available seats
+     * @return true if the flight can be booked
+     */
     public boolean canBeBooked() {
         return this.availableSeats > 0;
     }
 
+    /**
+     * Indicates whether some other flight is the same as this one
+     * @param o the reference object with which to compare.
+     * @return true if they are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Flight flight)) return false;
@@ -126,11 +142,19 @@ public final class Flight {
                 && Objects.equals(arrivalTime, flight.arrivalTime);
     }
 
+    /**
+     * Hash code representation of this object
+     * @return the hash code for the object
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, flightNumber, airline, origin, destination, departureTime, arrivalTime);
     }
 
+    /**
+     * Returns a string representation of this flight
+     * @return a string representation of the flight
+     */
     @Override
     public String toString() {
         return "Flight{" +
