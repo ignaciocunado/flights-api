@@ -22,6 +22,30 @@ export async function fetchAllFlights(): Promise<Flight[]> {
     }
 }
 
+export async function searchFlights(origin?: string, destination?: string): Promise<Flight[]> {
+    try {
+        const queryParams = new URLSearchParams();
+        if (origin) queryParams.append('origin', origin);
+        if (destination) queryParams.append('destination', destination);
+
+        const res = await fetch(`${API_URL}/api/flights?${queryParams}`, {
+            cache: 'no-store',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to search flights: ${res.status} ${res.statusText}`);
+        }
+
+        return res.json();
+    } catch (error) {
+        console.error('Error searching flights:', error);
+        throw error;
+    }
+}
+
 export async function bookFlight(id: number): Promise<Flight[]> {
     try {
         const res = await fetch(`${API_URL}/api/flights/${id}/book`, {

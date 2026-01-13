@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useMemo } from "react";
+import {useState, useMemo, useEffect} from "react";
 import { HeroSection } from "./HeroSection";
 import { FlightCard } from "./FlightCard";
 import { Badge } from "./ui/badge";
 import {Airport, Flight} from "../lib/definitions";
 import { Plane } from "lucide-react"
 import {Footer} from "@/app/components/Footer";
+import {searchFlights} from "@/app/lib/api";
 
 interface FlightSearchClientProps {
     flights: Flight[];
@@ -14,17 +15,34 @@ interface FlightSearchClientProps {
 }
 
 export default function FlightSearchClient({ flights, airports }: FlightSearchClientProps) {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [appliedSearch, setAppliedSearch] = useState("");
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flights);
 
-    const handleSearch = () => {
-        setAppliedSearch(searchQuery);
+    const handleSearch = async (from: string, to: string) => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const results = await searchFlights(from.replace(/[()]/g, "").trim(), to.replace(/[()]/g, "").trim());
+            setFilteredFlights(results);
+        } catch {
+            setError("Failed to search flights");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="min-h-screen bg-background">
             <HeroSection
                 airports={airports}
+                from={from}
+                to={to}
+                setFrom={setFrom}
+                setTo={setTo}
                 onSearch={handleSearch}
             />
 
@@ -36,7 +54,7 @@ export default function FlightSearchClient({ flights, airports }: FlightSearchCl
                             Available flights
                         </h2>
                         <Badge variant="default" className="text-sm">
-                            {flights.length} {flights.length === 1 ? 'flight' : 'flights'}
+                            {filteredFlights.length} {filteredFlights.length === 1 ? 'flight' : 'flights'}
                         </Badge>
                     </div>
                 </div>
@@ -44,9 +62,9 @@ export default function FlightSearchClient({ flights, airports }: FlightSearchCl
                 <div className="flex gap-8">
                     {/* Flight Results */}
                     <div className="flex-1">
-                        {flights.length > 0 ? (
+                        {filteredFlights.length > 0 ? (
                             <div className="space-y-4">
-                                {flights.map((flight) => (
+                                {filteredFlights.map((flight) => (
                                     <FlightCard key={flight.id} flight={flight} />
                                 ))}
                             </div>

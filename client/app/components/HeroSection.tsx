@@ -1,23 +1,21 @@
-'use client';
+"use client";
 
-import {useMemo, useState} from "react";
+import { useMemo } from "react";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Plane, ArrowLeftRight } from "lucide-react";
-import {Airport} from "@/app/lib/definitions";
+import { Airport } from "@/app/lib/definitions";
 
 interface HeroSectionProps {
   airports: Airport[];
-  onSearch: (params: { from: string; to: string }) => void;
+  from: string;
+  to: string;
+  setFrom: (v: string) => void;
+  setTo: (v: string) => void;
+  onSearch: (from: string, to: string) => void;
 }
-export function HeroSection({ airports, onSearch }: HeroSectionProps) {
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
 
-  const handleSearch = () => {
-    onSearch({ from, to });
-  };
-
+export function HeroSection({ airports, from, to, setFrom, setTo, onSearch }: HeroSectionProps) {
   const handleSwapLocations = () => {
     setFrom(to);
     setTo(from);
@@ -25,10 +23,7 @@ export function HeroSection({ airports, onSearch }: HeroSectionProps) {
 
   const fromSuggestions = useMemo(() => {
     const q = from.trim().toLowerCase();
-    if(q === '') {
-      return [];
-    }
-    if (!q) return airports.slice(0, 10);
+    if (!q) return [];
 
     return airports
         .filter((a) => {
@@ -38,13 +33,9 @@ export function HeroSection({ airports, onSearch }: HeroSectionProps) {
         .slice(0, 10);
   }, [airports, from]);
 
-  // suggestions for "To"
   const toSuggestions = useMemo(() => {
     const q = to.trim().toLowerCase();
-    if(q === '') {
-      return [];
-    }
-    if (!q) return airports.slice(0, 10);
+    if (!q) return [];
 
     return airports
         .filter((a) => {
@@ -149,7 +140,7 @@ export function HeroSection({ airports, onSearch }: HeroSectionProps) {
 
               {/* Search Button */}
               <div className="md:col-span-1 flex items-end">
-                <Button onClick={handleSearch} className="w-full text-white font-semibold h-12 text-lg">
+                <Button onClick={ () => onSearch(from, to)} className="w-full text-white font-semibold h-12 text-lg">
                   Search
                 </Button>
               </div>
