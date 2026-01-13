@@ -1,9 +1,9 @@
 package server.services;
 
 import commons.entities.Airport;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import server.database.AirportRepository;
+import server.exceptions.AirportNotFoundException;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class AirportService {
         final List<Airport> airports = airportRepository.findAllWithQuery(query);
 
         if(airports.isEmpty()){
-            throw new EntityNotFoundException("Airports not found");
+            throw new AirportNotFoundException("Airports not found");
         }
 
         return airports;

@@ -2,11 +2,11 @@ package server.api.controllers;
 
 import commons.entities.Airport;
 import commons.entities.Flight;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.database.TestAirportRepository;
 import server.database.TestFlightRepository;
+import server.exceptions.FlightNotFoundException;
 import server.exceptions.InvalidBookingException;
 import server.services.FlightService;
 
@@ -127,7 +127,7 @@ public class FlightControllerTest {
 
     @Test
     public void getFlightByIdNotFoundTest() {
-        assertThrows(EntityNotFoundException.class, () -> this.controller.getFlightById(1000L));
+        assertThrows(FlightNotFoundException.class, () -> this.controller.getFlightById(1000L));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class FlightControllerTest {
 
     @Test
     public void deleteFlightNotFoundTest() {
-        assertThrows(EntityNotFoundException.class, () -> this.controller.deleteFlight(1000L));
+        assertThrows(FlightNotFoundException.class, () -> this.controller.deleteFlight(1000L));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class FlightControllerTest {
 
     @Test
     public void bookFlightNotFoundTest() {
-        assertThrows(EntityNotFoundException.class, () -> this.controller.bookFlight(1000L));
+        assertThrows(FlightNotFoundException.class, () -> this.controller.bookFlight(1000L));
     }
 
     @Test

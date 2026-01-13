@@ -2,12 +2,12 @@ package server.services;
 
 import commons.entities.Airport;
 import commons.entities.Flight;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import server.database.AirportRepository;
 import server.database.FlightRepository;
+import server.exceptions.FlightNotFoundException;
 import server.exceptions.InvalidBookingException;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class FlightService {
         final List<Flight> flights = flightRepository.findAllWithQuery(flightNumber, origin, destination, airline);
 
         if(flights.isEmpty()) {
-            throw new EntityNotFoundException("No flights found");
+            throw new FlightNotFoundException("No flights found");
         }
 
         return flights;
@@ -56,7 +56,7 @@ public class FlightService {
         final Optional<Flight> flightOpt = flightRepository.findById(id);
 
         if (flightOpt.isEmpty()) {
-            throw new EntityNotFoundException("Flight with id " + id + " not found");
+            throw new FlightNotFoundException("Flight with id " + id + " not found");
         }
 
         return flightOpt.get();
@@ -71,7 +71,7 @@ public class FlightService {
         Flight toDelete = this.getFlight(id);
 
         if(! flightRepository.existsById(id)) {
-            throw new EntityNotFoundException("Flight with id " + id + " not found");
+            throw new FlightNotFoundException("Flight with id " + id + " not found");
         }
 
         flightRepository.deleteById(id);
@@ -107,7 +107,7 @@ public class FlightService {
         Optional<Flight> flightOpt = flightRepository.findById(id);
 
         if (flightOpt.isEmpty()) {
-            throw new EntityNotFoundException("Flight with id " + id + " not found");
+            throw new FlightNotFoundException("Flight with id " + id + " not found");
         }
 
         Flight flight = flightOpt.get();
