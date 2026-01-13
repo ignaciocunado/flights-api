@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import {useMemo, useState} from "react";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Plane, ArrowLeftRight } from "lucide-react";
@@ -8,14 +8,13 @@ import { Airport } from "@/app/lib/definitions";
 
 interface HeroSectionProps {
   airports: Airport[];
-  from: string;
-  to: string;
-  setFrom: (v: string) => void;
-  setTo: (v: string) => void;
   onSearch: (from: string, to: string) => void;
 }
 
-export function HeroSection({ airports, from, to, setFrom, setTo, onSearch }: HeroSectionProps) {
+export function HeroSection({ airports, onSearch }: HeroSectionProps) {
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+
   const handleSwapLocations = () => {
     setFrom(to);
     setTo(from);
@@ -23,7 +22,7 @@ export function HeroSection({ airports, from, to, setFrom, setTo, onSearch }: He
 
   const fromSuggestions = useMemo(() => {
     const q = from.trim().toLowerCase();
-    if (!q) return [];
+    if (!q || q.length < 2) return [];
 
     return airports
         .filter((a) => {
@@ -36,6 +35,7 @@ export function HeroSection({ airports, from, to, setFrom, setTo, onSearch }: He
   const toSuggestions = useMemo(() => {
     const q = to.trim().toLowerCase();
     if (!q) return [];
+    if (!q || q.length < 3) return [];
 
     return airports
         .filter((a) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useMemo, useEffect} from "react";
+import {useState} from "react";
 import { HeroSection } from "./HeroSection";
 import { FlightCard } from "./FlightCard";
 import { Badge } from "./ui/badge";
@@ -15,8 +15,6 @@ interface FlightSearchClientProps {
 }
 
 export default function FlightSearchClient({ flights, airports }: FlightSearchClientProps) {
-    const [from, setFrom] = useState("");
-    const [to, setTo] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flights);
@@ -39,10 +37,6 @@ export default function FlightSearchClient({ flights, airports }: FlightSearchCl
         <div className="min-h-screen bg-background">
             <HeroSection
                 airports={airports}
-                from={from}
-                to={to}
-                setFrom={setFrom}
-                setTo={setTo}
                 onSearch={handleSearch}
             />
 
