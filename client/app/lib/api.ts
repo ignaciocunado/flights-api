@@ -11,6 +11,9 @@ export async function fetchAllFlights(): Promise<Flight[]> {
             },
         });
 
+        if(res.status == 404) {
+            return [];
+        }
         if (!res.ok) {
             throw new Error(`Failed to fetch flights: ${res.status} ${res.statusText}`);
         }
@@ -35,6 +38,9 @@ export async function searchFlights(origin?: string, destination?: string): Prom
             },
         });
 
+        if(res.status == 404) {
+            return [];
+        }
         if (!res.ok) {
             throw new Error(`Failed to search flights: ${res.status} ${res.statusText}`);
         }
