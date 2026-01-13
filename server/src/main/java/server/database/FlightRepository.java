@@ -28,7 +28,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
         WHERE (:flightNumber IS NULL OR f.flightNumber = :flightNumber)
           AND (:airline IS NULL OR f.airline = :airline)
           AND (:origin IS NULL OR o.code = :origin)
-          OR (:destination IS NULL OR d.code = :destination)
+          AND (:destination IS NULL OR d.code = :destination)
     """)
     List<Flight> findAllWithQuery(
             @Param("flightNumber") String flightNumber,
