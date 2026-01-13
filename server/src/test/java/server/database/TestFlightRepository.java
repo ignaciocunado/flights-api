@@ -85,11 +85,13 @@ public class TestFlightRepository implements FlightRepository {
                 c.setPrice(entity.getPrice());
                 c.setCurrency(c.getCurrency());
                 c.setAvailableSeats(entity.getAvailableSeats());
+                c.setVersion(entity.getVersion());
                 return (S) c;
             }
         }
 
         final Flight flight = new Flight(entity.getFlightNumber(), entity.getAirline(), entity.getOrigin(), entity.getDestination(), entity.getDepartureTime(), entity.getArrivalTime(), entity.getDuration(), entity.getPrice(), entity.getCurrency(), entity.getAvailableSeats());
+        flight.setVersion(entity.getVersion());
         nextInt++;
         flight.setId(nextInt);
 

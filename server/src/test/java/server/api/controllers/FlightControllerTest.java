@@ -4,8 +4,10 @@ import commons.entities.Airport;
 import commons.entities.Flight;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.api.requests.BookingRequest;
 import server.database.TestAirportRepository;
 import server.database.TestFlightRepository;
+import server.exceptions.ConcurrentBookingException;
 import server.exceptions.FlightNotFoundException;
 import server.exceptions.InvalidBookingException;
 import server.services.FlightService;
@@ -151,7 +153,7 @@ public class FlightControllerTest {
 
         this.flightRepo.save(flight);
         flight.setId(1L);
-        this.controller.bookFlight(1L);
+        this.controller.bookFlight(1L, new BookingRequest(0L));
 
         assertEquals(99, flightRepo.getById(1L).getAvailableSeats());
     }
@@ -162,16 +164,17 @@ public class FlightControllerTest {
         final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
         final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 1);
 
+        flight.setVersion(1L);
         this.flightRepo.save(flight);
         flight.setId(1L);
-        this.controller.bookFlight(1L);
+        this.controller.bookFlight(1L, new BookingRequest(1L));
 
         assertFalse(flightRepo.existsById(1L));
     }
 
     @Test
     public void bookFlightNotFoundTest() {
-        assertThrows(FlightNotFoundException.class, () -> this.controller.bookFlight(1000L));
+        assertThrows(FlightNotFoundException.class, () -> this.controller.bookFlight(1000L, new  BookingRequest(1L)));
     }
 
     @Test
@@ -183,7 +186,19 @@ public class FlightControllerTest {
         this.flightRepo.save(flight);
         flight.setId(1L);
 
-        assertThrows(InvalidBookingException.class, () -> this.controller.bookFlight(1L));
+        assertThrows(InvalidBookingException.class, () -> this.controller.bookFlight(1L, new BookingRequest(1L)));
+    }
+
+    @Test
+    public void concurrentBookingTest() {
+        final Airport agp = new Airport("AGP", "Aeropuerto de Malaga", "Malaga", "Spain", "CET");
+        final Airport ams = new Airport("AMS", "Amsterdam Schiphol Airport", "Amsterdam", "The Netherlands", "CET");
+        final Flight flight = new Flight("1234", "Ignacio AIR", agp, ams, LocalDateTime.parse("2027-01-01T00:00:00"), LocalDateTime.parse("2027-01-01T05:00:00"), 120, 10000, "EUR", 10);
+
+        flight.setVersion(2L);
+        this.flightRepo.save(flight);
+
+        assertThrows(ConcurrentBookingException.class, () -> this.controller.bookFlight(1L, new BookingRequest(1L)));
     }
 
     private void saveSampleFlights() {
