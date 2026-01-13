@@ -2,11 +2,14 @@ package server.services;
 
 import commons.entities.Airport;
 import commons.entities.Flight;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import server.api.requests.BookingRequest;
 import server.database.AirportRepository;
 import server.database.FlightRepository;
+import server.exceptions.ConcurrentBookingException;
 import server.exceptions.FlightNotFoundException;
 import server.exceptions.InvalidBookingException;
 
@@ -99,11 +102,12 @@ public class FlightService {
     }
 
     /**
-     * Books a flight by its ID
-     * @param id ID of the flight to book
-     * @return the booked flight or 404.
+     * Books a flight by its ID.
+     * @param id ID of the flight to book.
+     * @param req The booking request containing the version.
+     * @return the booked flight or 404
      */
-    public Flight bookFlight(Long id) {
+    public Flight bookFlight(Long id, BookingRequest req) {
         Optional<Flight> flightOpt = flightRepository.findById(id);
 
         if (flightOpt.isEmpty()) {
@@ -114,6 +118,9 @@ public class FlightService {
 
         if(! flight.canBeBooked()) {
             throw new InvalidBookingException("Flight with with id" + id + "has no seats available.");
+        }
+        if (req.getVersion() != flight.getVersion()) {
+            throw new ConcurrentBookingException("Flight data has been modified by another user. Please refresh and try again.");
         }
 
         flight.setAvailableSeats(flight.getAvailableSeats() - 1);

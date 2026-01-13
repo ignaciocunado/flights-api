@@ -1,7 +1,6 @@
 package server.api;
 
 import lombok.Getter;
-import lombok.Setter;
 import server.exceptions.ServerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

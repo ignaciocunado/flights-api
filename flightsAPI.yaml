@@ -195,6 +195,19 @@ paths:
             type: integer
             format: int64
           description: ID of the flight to book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version:
+                  type: integer
+                  format: int64
+                  description: The version of the flight object (for concurrency reasons)
+                  example: 1
+              required:
+                - version
       responses:
         '200':
           description: OK
@@ -222,6 +235,16 @@ paths:
                   message:
                     type: string
                     example: Flight not found
+        '409':
+          description: Concurrency conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Seats no longer available, please try again
         '500':
           description: Internal server error
 
@@ -304,27 +327,15 @@ components:
           format: date-time
           nullable: true
           description: >
-            Scheduled local departure time (without explicit time zone in the value;
-            use departureTimezone to interpret it).
+            Scheduled local departure time (see origin airport for details).
           example: "2025-03-10T10:30:00"
         arrivalTime:
           type: string
           format: date-time
           nullable: true
           description: >
-            Scheduled local arrival time (without explicit time zone in the value;
-            use arrivalTimezone to interpret it).
+            Scheduled local arrival time (see origin airport for details).
           example: "2025-03-10T12:05:00"
-        departureTimezone:
-          type: string
-          nullable: true
-          description: IANA time zone of the departure airport.
-          example: "Europe/Madrid"
-        arrivalTimezone:
-          type: string
-          nullable: true
-          description: IANA time zone of the arrival airport.
-          example: "Europe/London"
         duration:
           type: integer
           format: int32
@@ -359,6 +370,10 @@ components:
           example:
             - WIFI
             - MEALS
+        version:
+          type: integer
+          format: int64
+          example: 1
       required:
         - flightNumber
         - airline
@@ -393,9 +408,6 @@ components:
           type: string
           description: Airport's timezone.
           example: "UTC"
-
-
-
   requestBodies:
     FlightPostRequest:
       description: Flight details
@@ -404,5 +416,87 @@ components:
         application/json:
           schema:
             type: object
-            allOf:
-              - $ref: '#/components/schemas/Flight'
+            description: Flight information.
+            properties:
+              id:
+                type: integer
+                format: int64
+                readOnly: true
+                description: Database-generated unique identifier of the flight.
+              flightNumber:
+                type: string
+                description: Airline flight number (e.g. "IB3171").
+                example: "IB3171"
+              airline:
+                type: string
+                description: Airline operating the flight.
+                example: "Iberia"
+              origin:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/Airport'
+                description: Origin airport object
+              destination:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/Airport'
+                description: Destination airport object
+              departureTime:
+                type: string
+                format: date-time
+                nullable: true
+                description: >
+                  Scheduled local departure time (see origin airport for details).
+                example: "2025-03-10T10:30:00"
+              arrivalTime:
+                type: string
+                format: date-time
+                nullable: true
+                description: >
+                  Scheduled local arrival time (see origin airport for details).
+                example: "2025-03-10T12:05:00"
+              duration:
+                type: integer
+                format: int32
+                description: Flight duration in minutes.
+                example: 95
+                minimum: 0
+              price:
+                type: integer
+                format: int32
+                description: Price in minor units (e.g. cents) to avoid floating point issues.
+                example: 15999
+                minimum: 0
+              currency:
+                type: string
+                description: ISO 4217 currency code.
+                example: "EUR"
+              availableSeats:
+                type: integer
+                format: int32
+                description: Number of seats currently available for booking.
+                example: 12
+                minimum: 0
+              amenities:
+                type: array
+                items:
+                  type: string
+                  enum:
+                    - WIFI
+                    - MEALS
+                    - ENTERTAINMENT
+                    - PREMIUM_SEATS
+                example:
+                  - WIFI
+                  - MEALS
+            required:
+              - flightNumber
+              - airline
+              - origin
+              - destination
+              - departureTime
+              - arrivalTime
+              - duration
+              - price
+              - currency
+              - availableSeats

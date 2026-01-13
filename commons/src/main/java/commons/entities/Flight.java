@@ -60,6 +60,9 @@ public final class Flight {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Amenity> amenities;
 
+    @Version
+    private long version;
+
     /**
      * Constructs a new Flight object.
      *

@@ -2,12 +2,15 @@ package server.api.controllers;
 
 
 import commons.entities.Flight;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.api.requests.BookingRequest;
 import server.services.FlightService;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @RestController
@@ -74,11 +77,12 @@ public final class FlightController {
      * If the flight cannot be booked, it throws an error.
      * If the number of available seats becomes 0, it deletes it from the database.
      * @param id The ID if the flight to book.
+     * @param req The request body containing the version of the flight in the frontend.
      * @return the booked flight
      */
     @PatchMapping("/{id}/book")
-    public ResponseEntity<Flight> bookFlight(@PathVariable Long id) {
-        return new ResponseEntity<>(flightService.bookFlight(id), new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<Flight> bookFlight(@PathVariable Long id, @Valid @RequestBody BookingRequest req) {
+        return new ResponseEntity<>(flightService.bookFlight(id, req), new HttpHeaders(), HttpStatus.OK);
     }
 
 
