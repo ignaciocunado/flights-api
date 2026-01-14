@@ -52,7 +52,7 @@ export async function searchFlights(origin?: string, destination?: string): Prom
     }
 }
 
-export async function bookFlight(id: number): Promise<Flight[]> {
+export async function bookFlight(id: number, version: number): Promise<Flight[]> {
     try {
         const res = await fetch(`${API_URL}/api/flights/${id}/book`, {
             method: 'PATCH',
@@ -60,6 +60,9 @@ export async function bookFlight(id: number): Promise<Flight[]> {
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                'version': version,
+            }),
         });
 
         if (! res.ok) {

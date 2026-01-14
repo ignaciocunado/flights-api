@@ -41,9 +41,9 @@ export function FlightCard({ flight }: FlightCardProps) {
 
     const router = useRouter();
 
-    async function book(id: number) {
+    async function book(id: number, version: number) {
         try {
-            await bookFlight(id);
+            await bookFlight(id, version);
             alert("Flight successfully booked!");
             router.refresh();
         } catch (e) {
@@ -145,7 +145,7 @@ export function FlightCard({ flight }: FlightCardProps) {
                                     <Users className="h-4 w-4" />
                                     {flight.availableSeats} seats available
                                 </h3>
-                                <Button className="w-5/12 bg-booking text-white font-semibold h-12 text-lg" size="lg" onClick={ () => book(flight.id) }>
+                                <Button className="w-5/12 bg-booking text-white font-semibold h-12 text-lg" size="lg" onClick={ () => book(flight.id, flight.version) }>
                                     Book Now
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>

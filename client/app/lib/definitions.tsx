@@ -20,4 +20,5 @@ export type Flight = {
     currency: string;
     availableSeats: number;
     amenities: string[];
+    version: number;
 }
