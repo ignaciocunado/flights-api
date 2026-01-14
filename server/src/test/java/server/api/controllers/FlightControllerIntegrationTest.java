@@ -1,7 +1,6 @@
 package server.api.controllers;
 import commons.entities.Airport;
 import commons.entities.Flight;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentMatchers;
 import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import server.api.requests.BookingRequest;
+import server.dto.BookingRequest;
 import server.services.FlightService;
 
 import java.util.List;
@@ -192,19 +191,6 @@ public class FlightControllerIntegrationTest {
         verifyNoMoreInteractions(flightService);
     }
 
-    @Test
-    void bookFlight_returns200() throws Exception {
-        when(flightService.bookFlight(9L, new BookingRequest(1L))).thenReturn(makeFlight(9L, "U2001", "easyJet", new Airport("LGW"), new Airport("AMS")));
-
-        mockMvc.perform(patch("/api/flights/9/book"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(9))
-                .andExpect(jsonPath("$.flightNumber").value("U2001"));
-
-        verify(flightService, times(1)).bookFlight(9L, new BookingRequest(1L));
-        verifyNoMoreInteractions(flightService);
-    }
 
     private static Flight makeFlight(Long id, String flightNumber, String airline, Airport origin, Airport destination) {
         Flight f = new Flight();

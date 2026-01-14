@@ -7,10 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.api.requests.BookingRequest;
+import server.dto.BookingRequest;
 import server.services.FlightService;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @RestController

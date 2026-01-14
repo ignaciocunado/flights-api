@@ -2,11 +2,10 @@ package server.services;
 
 import commons.entities.Airport;
 import commons.entities.Flight;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
-import server.api.requests.BookingRequest;
+import server.dto.BookingRequest;
 import server.database.AirportRepository;
 import server.database.FlightRepository;
 import server.exceptions.ConcurrentBookingException;

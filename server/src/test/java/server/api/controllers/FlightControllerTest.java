@@ -4,7 +4,7 @@ import commons.entities.Airport;
 import commons.entities.Flight;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.api.requests.BookingRequest;
+import server.dto.BookingRequest;
 import server.database.TestAirportRepository;
 import server.database.TestFlightRepository;
 import server.exceptions.ConcurrentBookingException;
