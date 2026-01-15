@@ -12,7 +12,7 @@ import java.time.Instant;
 public final class RestExceptionHandler {
 
     @Getter
-    class APIError {
+    static class APIError {
 
         private final String message;
 
