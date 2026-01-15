@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ class FlightTest {
 
         this.flight1 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100, Set.of(Amenity.MEALS, Amenity.WIFI));
         this.flight2 = new Flight("AB1234", "Ignacio AIR", origin, destination, departure, arrival, 120, 10000, "EUR", 100, Set.of(Amenity.PREMIUM_SEATS));
-        this.flight3 = new Flight("AB1233", "Booking AIR", origin   , destination, departure, arrival, 120 ,100, "EUR", 29, new HashSet<>());
+        this.flight3 = new Flight("AB1233", "Booking AIR", origin, destination, departure, arrival, 120 ,100, "EUR", 29, new HashSet<>());
     }
 
     @Test
@@ -37,6 +38,62 @@ class FlightTest {
     @Test
     void testEqualsBadWeather() {
         assertNotEquals(this.flight1, this.flight3);
+    }
+
+    @Test
+    void testEqualsBadWeather2() {
+        this.flight2.setFlightNumber("AB1233");
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather3() {
+        this.flight2.setAirline("Ignacio AIR2");
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather4() {
+        this.flight2.setDestination(new Airport("MAD"));
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather5() {
+        this.flight2.setOrigin(new Airport("MAD"));
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather6() {
+        this.flight2.setDuration(119);
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather7() {
+        this.flight2.setPrice(119);
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather8() {
+        this.flight2.setDepartureTime(LocalDateTime.now());
+
+        assertNotEquals(this.flight1, this.flight2);
+    }
+
+    @Test
+    void testEqualsBadWeather9() {
+        this.flight2.setArrivalTime(LocalDateTime.now());
+
+        assertNotEquals(this.flight1, this.flight2);
     }
 
     @Test
@@ -169,15 +226,22 @@ class FlightTest {
     }
 
     @Test
-    void getAmenities() {
+    void getAmenitiesTest() {
         assertEquals(Set.of(Amenity.MEALS, Amenity.WIFI), this.flight1.getAmenities());
     }
 
     @Test
-    void setAmenities() {
+    void setAmenitiesTest() {
         this.flight1.setAmenities(Set.of(Amenity.PREMIUM_SEATS));
 
         assertEquals(Set.of(Amenity.PREMIUM_SEATS), this.flight1.getAmenities());
+    }
+
+    @Test
+    void constructorEmptyAmenitiesTest() {
+        Flight flight = new Flight("AB1234", "Ignacio AIR", new Airport("AGP"), new Airport("JFK"), LocalDateTime.now(), LocalDateTime.now(), 120, 10000, "EUR", 100);
+
+        assertEquals(Collections.emptySet(), flight.getAmenities());
     }
 
     @Test

@@ -136,13 +136,14 @@ public final class Flight {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Flight flight)) return false;
-        return Objects.equals(id, flight.id)
-                && Objects.equals(flightNumber, flight.flightNumber)
+        return Objects.equals(flightNumber, flight.flightNumber)
                 && Objects.equals(airline, flight.airline)
                 && Objects.equals(origin, flight.origin)
                 && Objects.equals(destination, flight.destination)
                 && Objects.equals(departureTime, flight.departureTime)
-                && Objects.equals(arrivalTime, flight.arrivalTime);
+                && Objects.equals(arrivalTime, flight.arrivalTime)
+                && Objects.equals(duration, flight.duration)
+                && Objects.equals(price, flight.price);
     }
 
     /**
