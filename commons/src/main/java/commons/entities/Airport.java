@@ -64,7 +64,7 @@ public final class Airport {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Airport airport)) return false;
-        return Objects.equals(code, airport.code) && Objects.equals(name, airport.name) && Objects.equals(city, airport.city) && Objects.equals(country, airport.country) && Objects.equals(timezone, airport.timezone);
+        return Objects.equals(code, airport.code); // IATA codes are unique
     }
 
     /**
