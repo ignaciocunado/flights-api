@@ -6,6 +6,11 @@ def duration_to_minutes(s: str) -> int:
     h, m = s.replace("h", "").replace("m", "").split()
     return int(h) * 60 + int(m)
 
+def check_timezone(timezone: str) -> str:
+    if timezone == "Europe/Asia":
+        return "Europe/Istanbul"
+    return timezone
+
 def main():
     with open('flights.json') as f:
         data = json.load(f)
@@ -22,7 +27,7 @@ def main():
                 'name': origin[0]['airport'],
                 'city': origin[0].get('city', ''),
                 'country': origin[0]['country_code'],
-                'timezone': origin[0]['time'],
+                'timezone': check_timezone(origin[0]['time']),
             },
             'destination': {
                 'code': flight['destination'],

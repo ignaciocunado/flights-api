@@ -35,7 +35,10 @@ public final class FlightController {
      * @return a list of flights matching the specified query or all flights there is no query
      */
     @GetMapping(path = {"", "/"})
-    public ResponseEntity<List<Flight>> getFlights(@RequestParam(name = "flightNumber", required = false) String flightNumber, @RequestParam(name = "origin", required = false) String origin, @RequestParam(name = "destination", required = false) String destination, @RequestParam(name = "airline", required = false) String airline) {
+    public ResponseEntity<List<Flight>> getFlights(@RequestParam(name = "flightNumber", required = false) String flightNumber,
+                                                   @RequestParam(name = "origin", required = false) String origin,
+                                                   @RequestParam(name = "destination", required = false) String destination,
+                                                   @RequestParam(name = "airline", required = false) String airline) {
         return new ResponseEntity<>(flightService.getFlights(
                 flightNumber, origin, destination, airline
         ), new HttpHeaders(), HttpStatus.OK);
